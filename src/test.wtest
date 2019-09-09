@@ -1,9 +1,21 @@
 import main.*
+test "Los destinos mas importantes de barrileteCosmico son marDeAjo y lasToninas" {
 
-test "Aplicar un descuento del 20% a marDeAjo" {
+assert.equals(#{marDeAjo, lasToninas}, barrileteCosmico.obtenerLosDestinosMasImportantes())	
 	
-	marDeAjo.aplicarDescuento(20)
-	assert.equals(2000, marDeAjo.precio())
+}
+
+test "Al aplicar un descuento del 25% a lasToninas su precio es 2625" {
+	
+	lasToninas.aplicarDescuento(25)
+	assert.equals(2625, lasToninas.precio())
+	
+}
+
+test "Al aplicar un descuento del 25% a lasToninas, ahora el destino posee Certificado de Descuento" {
+	
+	lasToninas.aplicarDescuento(25)
+	assert.that(lasToninas.tieneCertificadoDeDescuento())
 	
 }
 
@@ -13,16 +25,39 @@ test "Ver si marDelPlata es un destino peligroso" {
 
 }
 
-test "Luego de aplicarle un descuento del 50% a los destinos, el precio de lasToninas es 1750" {
+test "Luego de aplicarle un descuento del 15% a los destinos, el precio de marDeAjo es 2125" {
 
-	barrileteCosmico.aplicarDescuentoALosDestinos(50)
-	assert.equals(1750, lasToninas.precio())
+	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+	assert.equals(2125, marDeAjo.precio())
 
 }
 
-test "barrileteCosmico es una empresaExtrema" {
+test "Luego de aplicarle un descuento del 15% a los destinos, el precio de marDelPlata es 1147.5" {
 
-	assert.that(barrileteCosmico.esEmpresaExtrema())
+	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+	assert.equals(1147.5, marDelPlata.precio())
+
+}
+
+test "Luego de aplicarle un descuento del 15% a los destinos, el precio de lasToninas es 2975" {
+
+	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+	assert.equals(2975, lasToninas.precio())
+
+}
+
+test "Luego de aplicarle un descuento del 15% a los destinos, el precio de buenosAires es 1275" {
+
+	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+	assert.equals(1275, buenosAires.precio())
+	
+
+}
+
+test "Luego de aplicarle un descuento del 15% a los destinos, los mismos tienen Certificado de Descuento como equipajeImprescindible" {
+
+	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+	assert.that(barrileteCosmico.destinos().all({destino => destino.tieneCertificadoDeDescuento()}))
 
 }
 
@@ -32,24 +67,25 @@ test "El unico destino peligroso de barrileteCosmico es lasToninas" {
 
 }
 
-test "pabloHari intenta volar a marDeAjo pero no consigue conocer el destino" {
-	
-	pabloHari.volarA(marDeAjo)
-	assert.notThat(pabloHari.conoce(marDeAjo))
+test "Ver si barrileteCosmico es una empresaExtrema" {
+
+	assert.that(barrileteCosmico.esEmpresaExtrema())
+
 }
 
-test "pabloHari intenta volar a marDeAjo y le quedan $1500 en su cuenta" {
-	
-	pabloHari.volarA(marDeAjo)
-	assert.equals(1500, pabloHari.dineroEnCuenta())
-}
-
-test "pabloHari tiene 500 km disponibles" {
+test "Ver si pabloHari tiene 500 kilometros disponibles" {
 	
 	assert.equals(500, pabloHari.obtenerKilometrosDisponibles())
 }
 
-test "Comprobar que marDelPlata esta en la carta de destinos de barrileteCosmico " {
+test "pabloHari vuela a marDelPlata y ahora conoce el destino" {
 	
-	assert.that(barrileteCosmico.conocerCartaDeDestinos().contains("Silver's Sea"))
+	pabloHari.volarA(marDelPlata)
+	assert.that(pabloHari.conoce(marDelPlata))
+}
+
+test "pabloHari vuela a marDelPlata y le quedan $150 en su cuenta" {
+	
+	pabloHari.volarA(marDelPlata)
+	assert.equals(150, pabloHari.dineroEnCuenta())
 }

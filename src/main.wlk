@@ -23,6 +23,10 @@ object marDeAjo {
     method precio() {
     	return precio
     }
+    
+    method tieneCertificadoDeDescuento() {
+    	return equipajeImprescindible.contains("Certificado de Descuento")
+    }
 }
 
 object marDelPlata {
@@ -49,6 +53,10 @@ object marDelPlata {
     
     method precio() {
     	return precio
+    }
+    
+    method tieneCertificadoDeDescuento() {
+    	return equipajeImprescindible.contains("Certificado de Descuento")
     }
 }
 
@@ -77,6 +85,10 @@ object lasToninas {
     method precio() {
     	return precio
     }
+    
+    method tieneCertificadoDeDescuento() {
+    	return equipajeImprescindible.contains("Certificado de Descuento")
+    }
 }
 
 object buenosAires {
@@ -90,7 +102,7 @@ object buenosAires {
 
     method aplicarDescuento(descuento) {
         precio -= precio / 100 * descuento
-        equipajeImprescindible.add("Certificado de Descuentos")
+        equipajeImprescindible.add("Certificado de Descuento")
     }
 
     method esDestinoPeligroso() {
@@ -103,6 +115,10 @@ object buenosAires {
     
     method precio() {
     	return precio
+    }
+    
+    method tieneCertificadoDeDescuento() {
+    	return equipajeImprescindible.contains("Certificado de Descuento")
     }
 }
 

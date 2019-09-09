@@ -155,5 +155,13 @@ object pabloHari {
 
     method devolverSeguida(otroUsuario) {
         usuariosSeguidos.add(otroUsuario)
-    }    
+    }
+    
+    method conoce(destino) {
+    	return destinosConocidos.contains(destino)
+    }
+    
+    method dineroEnCuenta() {
+    	return dineroEnCuenta
+    }
 }

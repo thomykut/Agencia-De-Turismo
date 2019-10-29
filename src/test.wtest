@@ -1,7 +1,26 @@
-import main.*
-test "Los destinos mas importantes de barrileteCosmico son marDeAjo y lasToninas" {
+import barrileteCosmico.*
+import localidad.*
+import usuario.*
+import viaje.*
 
-assert.equals(#{marDeAjo, lasToninas}, barrileteCosmico.obtenerLosDestinosMasImportantes())	
+const marDeAjo = new Playa("Garlic´s Sea", ["Caña de Pescar" , "Piloto"], 370, 2500)
+const marDelPlata = new Playa("Silver's Sea", ["Protector Solar" , "Equipo de Buceo"], 420, 1350)
+const lasToninas = new Montana("Last Toninas", ["Vacuna Gripal" , "Vacuna B" , "Necronomicon"], 350, 3500, 1000)
+const buenosAires = new CiudadHistorica("Good Airs", ["Cerveza" , "Protector Solar"], 0, 1500, ["Ciencias Naturales", "CCK", "Malba"])
+const kuni = new Usuario("Thomas Kuthnik", 3000000, #{}, #{}, buenosAires, empresarial)
+const nacho = new Usuario("Nacho Dettler", 50000, #{}, #{}, buenosAires, estudiantil)
+const turbinaB = new Turbina(5000)
+const micro = new Micro(90)
+const avion = new Avion(900, [turbinaB, turbinaB])
+const tren = new Tren(120)
+const barco = new Barco(50, 5)
+
+
+test "Las localidades mas importantes de barrileteCosmico son marDeAjo y lasToninas" {
+	
+
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	assert.equals(#{marDeAjo, lasToninas}, barrileteCosmico.obtenerLasLocalidadesMasImportantes())	
 	
 }
 
@@ -9,83 +28,135 @@ test "Al aplicar un descuento del 25% a lasToninas su precio es 2625" {
 	
 	lasToninas.aplicarDescuento(25)
 	assert.equals(2625, lasToninas.precio())
-	
 }
 
-test "Al aplicar un descuento del 25% a lasToninas, ahora el destino posee Certificado de Descuento" {
+test "Al aplicar un descuento del 25% a lasToninas, ahora la localidad posee Certificado de Descuento" {
+	
 	
 	lasToninas.aplicarDescuento(25)
-	assert.that(lasToninas.tieneCertificadoDeDescuento())
+	assert.that(lasToninas.tieneCertificadoDeDescuento())	
+}
+
+test "Ver si marDelPlata es una localidad peligrosa" {
 	
+	
+	assert.notThat(marDelPlata.esPeligrosa())
 }
 
-test "Ver si marDelPlata es un destino peligroso" {
-
-	assert.notThat(marDelPlata.esDestinoPeligroso())
-
-}
-
-test "Luego de aplicarle un descuento del 15% a los destinos, el precio de marDeAjo es 2125" {
-
-	barrileteCosmico.aplicarDescuentoALosDestinos(15)
+test "Luego de aplicarle un descuento del 15% a las localidades, el precio de marDeAjo es 2125" {
+	
+	
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	barrileteCosmico.aplicarDescuentoALasLocalidades(15)
 	assert.equals(2125, marDeAjo.precio())
-
 }
 
-test "Luego de aplicarle un descuento del 15% a los destinos, el precio de marDelPlata es 1147.5" {
-
-	barrileteCosmico.aplicarDescuentoALosDestinos(15)
-	assert.equals(1147.5, marDelPlata.precio())
-
-}
-
-test "Luego de aplicarle un descuento del 15% a los destinos, el precio de lasToninas es 2975" {
-
-	barrileteCosmico.aplicarDescuentoALosDestinos(15)
-	assert.equals(2975, lasToninas.precio())
-
-}
-
-test "Luego de aplicarle un descuento del 15% a los destinos, el precio de buenosAires es 1275" {
-
-	barrileteCosmico.aplicarDescuentoALosDestinos(15)
-	assert.equals(1275, buenosAires.precio())
+test "Luego de aplicarle un descuento del 15% a las localidades, el precio de marDelPlata es 1147.5" {
 	
 
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	barrileteCosmico.aplicarDescuentoALasLocalidades(15)
+	assert.equals(1147.5, marDelPlata.precio())
 }
 
-test "Luego de aplicarle un descuento del 15% a los destinos, los mismos tienen Certificado de Descuento como equipajeImprescindible" {
+test "Luego de aplicarle un descuento del 15% a las localidades, el precio de lasToninas es 2975" {
 
-	barrileteCosmico.aplicarDescuentoALosDestinos(15)
-	assert.that(barrileteCosmico.destinos().all({destino => destino.tieneCertificadoDeDescuento()}))
-
+	
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	barrileteCosmico.aplicarDescuentoALasLocalidades(15)
+	assert.equals(2975, lasToninas.precio())
 }
 
-test "El unico destino peligroso de barrileteCosmico es lasToninas" {
+test "Luego de aplicarle un descuento del 15% a las localidades, el precio de buenosAires es 1275" {
 
-	assert.equals(#{lasToninas}, barrileteCosmico.destinos().filter({destino => destino.esDestinoPeligroso()}))
+	
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	barrileteCosmico.aplicarDescuentoALasLocalidades(15)
+	assert.equals(1275, buenosAires.precio())	
+}
 
+test "Luego de aplicarle un descuento del 15% a las localidades, las mismas tienen Certificado de Descuento como equipajeImprescindible" {
+
+
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
+	barrileteCosmico.aplicarDescuentoALasLocalidades(15)
+	assert.that(barrileteCosmico.localidades().all({localidad => localidad.tieneCertificadoDeDescuento()}))
+}
+
+test "La unica localidad peligrosa  de barrileteCosmico es buenosAires" {
+	
+	barrileteCosmico.localidades(#{marDeAjo, buenosAires, marDelPlata})
+	assert.equals(#{buenosAires}, barrileteCosmico.localidades().filter({localidad => localidad.esPeligrosa()}))
 }
 
 test "Ver si barrileteCosmico es una empresaExtrema" {
 
+	barrileteCosmico.localidades(#{marDeAjo,lasToninas,marDelPlata,buenosAires})
 	assert.that(barrileteCosmico.esEmpresaExtrema())
-
 }
 
-test "Ver si pabloHari tiene 500 kilometros disponibles" {
+test "Ver si pHari tiene 350 kilometros recorridos luego de viajar en avion a lasToninas"{
+	 var phViaje = new Viaje(lasToninas, buenosAires, avion)
+	 var phari = new Usuario("Pablo Hari", 10000000, #{phViaje}, #{}, buenosAires, empresarial)
+	 phari.realizarViaje(phViaje)
+	 assert.equals(350, phari.kilometrosRecorridos())
+}
+
+test "kuni viaja a marDelPlata y su dineroEnCuenta es $898650" {
 	
-	assert.equals(500, pabloHari.obtenerKilometrosDisponibles())
+	barrileteCosmico.mediosDeTransporte(#{micro})
+	barrileteCosmico.armarViaje(kuni, marDelPlata)
+	assert.equals(898650, kuni.dineroEnCuenta())
 }
 
-test "pabloHari vuela a marDelPlata y ahora conoce el destino" {
-	
-	pabloHari.volarA(marDelPlata)
-	assert.that(pabloHari.conoce(marDelPlata))
+test "Luego de que nachito viaja a marDeAjo, su localidadDeOrigen es marDeAjo" {
+	var nachito = new Usuario("Nacho Dettler", 5000000, #{}, #{}, buenosAires, estudiantil)
+	barrileteCosmico.mediosDeTransporte(#{avion})
+	barrileteCosmico.armarViaje(nachito, marDeAjo)
+	assert.equals(marDeAjo, nachito.localidadDeOrigen())
 }
 
-test "pabloHari vuela a marDelPlata y le quedan $150 en su cuenta" {
-	
-	pabloHari.volarA(marDelPlata)
-	assert.equals(150, pabloHari.dineroEnCuenta())
+test "Comprobar que nachoo no posee dineroEnCuenta suficiente como para ir a marDelPlata" {
+	var nachoo = new Usuario("Nacho Dettler", 1000, #{}, #{}, buenosAires, grupoFamiliar)
+	barrileteCosmico.mediosDeTransporte(#{avion})
+	assert.throwsExceptionWithType(new NoPuedoRealizarElViajeException(), {barrileteCosmico.armarViaje(nachoo, marDelPlata)})
 }
+
+test "Verificar que nacho le devuelve el follow a kuni" {
+	
+	kuni.seguirUsuario(nacho)
+	assert.that(nacho.usuariosSeguidos().contains(kuni))
+
+}
+
+test "Verificar que la playa marDeAjo no es peligrosa"{
+	assert.notThat(marDeAjo.esPeligrosa())
+}
+
+test "Verificar que buenosAires, es una ciudad peligrosa"{
+	assert.that(buenosAires.esPeligrosa())
+}
+
+test "Verificar que el precio por kilometro de un avion con dos turbinas con impulso 5000 es 10000"{
+	assert.equals(avion.precioPorKilometro(), 10000)
+}
+
+test "Verificar que el precio por kilometro de un micro es 5000"{
+	assert.equals(micro.precioPorKilometro(), 5000)	
+}
+
+test "Verificar que el precio por kilometro de un tren es 1426"{
+	assert.equals(tren.precioPorKilometro(), 1426)
+}
+
+test "Verificar que el precio por kilometro de un barco es 5000"{
+	assert.equals(barco.precioPorKilometro(), 5000)
+}
+
+test "kunii viaja a marDelPlata, determina viaje en avion y su dineroEnCuenta es $5798650" {	
+	var kunii = new Usuario("Thomas Kuthnik", 10000000, #{}, #{}, buenosAires, empresarial)
+	barrileteCosmico.mediosDeTransporte(#{barco, avion, tren, micro})
+	barrileteCosmico.armarViaje(kunii, marDelPlata)
+	assert.equals(5798650, kunii.dineroEnCuenta())
+}
+
